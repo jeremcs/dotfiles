@@ -1,4 +1,4 @@
-# shortcut to this dotfiles path is $ZSH
+# shortcut to this dotfiles path is $DOTFILES
 export ZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
@@ -13,7 +13,7 @@ fi
 
 # all of our zsh files
 typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+config_files=($DOTFILES/**/*.zsh)
 
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
@@ -40,7 +40,7 @@ done
 unset config_files
 
 # Path to your oh-my-zsh configuration.
-OH_MY_ZSH=$HOME/.oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="muse"
 # nanotech2
@@ -48,7 +48,7 @@ ZSH_THEME="muse"
 
 plugins=(git zsh-syntax-highlighting lol vi-mode)
 
-source $OH_MY_ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:~/Scripts/bin
