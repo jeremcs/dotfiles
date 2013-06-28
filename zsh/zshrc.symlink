@@ -1,5 +1,5 @@
 # shortcut to this dotfiles path is $DOTFILES
-export ZSH=$HOME/.dotfiles
+export DOTFILES=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
@@ -46,7 +46,7 @@ ZSH_THEME="muse"
 # nanotech2
 # miloshadzic
 
-plugins=(git zsh-syntax-highlighting lol vi-mode)
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
