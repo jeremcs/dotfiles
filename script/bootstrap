@@ -32,7 +32,7 @@ install_ohmyzsh () {
 }
 
 install_vim_plugins () {
-    cd vim/vim/bundle
+    cd vim/vim.symlink/bundle
     for plugin in `cat ../../plugins_list` ; do
         info "installing plugin from $plugin"
         git clone $plugin
