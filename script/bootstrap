@@ -31,6 +31,15 @@ install_ohmyzsh () {
     wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
 }
 
+install_vim_plugins () {
+    cd vim/vim/bundle
+    for plugin in `cat ../../plugins_list` ; do
+        info "installing plugin from $plugin"
+        git clone $plugin
+    done
+    cd -
+}
+
 setup_gitconfig () {
   if ! [ -f git/gitconfig.symlink ]
   then
@@ -119,7 +128,8 @@ install_dotfiles () {
   done
 }
 
-install_ohmyzsh
+# install_ohmyzsh
+install_vim_plugins
 setup_gitconfig
 install_dotfiles
 
