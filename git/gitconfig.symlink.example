@@ -7,7 +7,7 @@
         name = AUTHORNAME
         email = AUTHOREMAIL
 [credential]
-        helper = osxkeychain
+        helper = cache
 [alias]
         co = checkout
         promote = !$ZSH/bin/git-promote
@@ -22,6 +22,10 @@
 [core]
         excludesfile = ~/.gitignore
         editor = vim
+        pager = less -+$LESS -RS 
+[grep]
+        lineNumber = true
+        extendedRegexp = true
 [apply]
         whitespace = nowarn
 [mergetool]
