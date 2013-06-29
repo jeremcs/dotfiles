@@ -9,11 +9,40 @@
 [credential]
         helper = cache
 [alias]
-        co = checkout
         promote = !$DOTFILES/bin/git-promote
         wtf     = !$DOTFILES/bin/git-wtf
         rank-contributers = !$DOTFILES/bin/git-rank-contributers
         count   = !git shortlog -sn
+        oops = blame
+        wdiff = diff --color-words
+        wshow = show --color-words
+        graph = log --all --graph --oneline --date-order --format='%C(yellow)%h%Creset%Cred%d%Creset %C(blue)-%Creset %s (%C(bold)%an%Creset, %C(cyan)%cr%Creset)'
+        g = log --all --graph --oneline --date-order --format='%C(yellow)%h%Creset%Cred%d%Creset %C(blue)-%Creset %s (%C(bold)%an%Creset, %C(cyan)%cr%Creset)'
+        b = branch
+        bav = branch -avv
+        s = status
+        st = status
+        sa = status -uall
+        c = commit
+        co = commit
+        ca = commit --amend
+        d = diff
+        dc = diff --cached
+        di = diff
+        dic = diff --cached
+        wd = diff --color-words
+        wdc = diff --cached --color-words
+        sh = show
+        wsh = show --color-words
+        ch = checkout
+        ck = checkout
+        a = add
+        au = add -u
+        aa = add -A
+        ap = add --patch
+        ai = add -i
+        rv = remote -v
+        l = log
 [color]
         diff = auto
         status = auto
