@@ -1,15 +1,24 @@
-#!/bin/sh
+#!/bin/zsh
 #
 # dot
 #
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
 
-# Set OS X defaults
-$ZSH/osx/set-defaults.sh
+echo "Updating zpresto"
+cd $HOME/.zprezto
+git pull 1> /dev/null
 
-# Upgrade homebrew
-brew update
+echo "Updating dotfiles"
+cd $DOTFILES
+git pull 1> /dev/null
 
-# Install homebrew packages
-$ZSH/homebrew/install.sh 2>&1
+vim_folder=$DOTFILES/vim/vim.symlink
+for i in `ls $vim_folder/bundle`
+    vim_plugins=($vim_plugins $i)
+
+for i in $vim_plugins; do
+    echo "Updating $i..."
+    cd $vim_folder/bundle/$i
+    git pull 1> /dev/null
+done
