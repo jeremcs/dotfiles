@@ -26,9 +26,13 @@ fail () {
   exit
 }
 
-install_ohmyzsh () {
-    info 'installing oh-my-zsh'
-    wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+install_prezto () {
+    info 'installing prezto'
+    git clone --recursive https://github.com/jeremcs/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+    setopt EXTENDED_GLOB
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+    done
 }
 
 install_vim_plugins () {
@@ -128,7 +132,7 @@ install_dotfiles () {
   done
 }
 
-# install_ohmyzsh
+install_prezto
 install_vim_plugins
 setup_gitconfig
 install_dotfiles
