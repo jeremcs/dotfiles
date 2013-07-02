@@ -5,20 +5,47 @@
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
 
-echo "Updating zpresto"
+info () {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+user () {
+  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit
+}
+
+info "Updating Prezto"
 cd $HOME/.zprezto
 git pull 1> /dev/null
+success "Prezto updated."
 
-echo "Updating dotfiles"
+info "Updating dotfiles"
 cd $DOTFILES
 git pull 1> /dev/null
+success "dotfiles updated."
 
 vim_folder=$DOTFILES/vim/vim.symlink
 for i in `ls $vim_folder/bundle`
     vim_plugins=($vim_plugins $i)
 
 for i in $vim_plugins; do
-    echo "Updating $i..."
+    info "Updating $i..."
     cd $vim_folder/bundle/$i
     git pull 1> /dev/null
+    success "$i updated."
 done
+
+info "Backing up parus"
+scp -r parus:backup $HOME
+success "parus backed up."
+
+success "You can have fun now !"
