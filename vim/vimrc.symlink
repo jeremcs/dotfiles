@@ -143,3 +143,7 @@ set grepprg=grep\ -nH\ $*
 " Shortcut is ^X^K in insert mode
 set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
 
+nnoremap <leader>mr 20<C-w><
+nnoremap <leader>ml 20<C-w>>
+
+nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
