@@ -40,3 +40,5 @@ bind-key -n M-left prev
 set -g default-terminal "screen-256color"
 
 bind-key C-b last-window
+
+source ~/.tmux/thesis.tmux
