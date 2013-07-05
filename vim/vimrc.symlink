@@ -111,6 +111,9 @@ map <F4> :! pdflatex %u <CR>
 nnoremap <leader>a gT
 nnoremap <leader>z gt
 
+" Display column for 80char width
+"set colorcolumn=80
+
 " --------------------------------------------------------------
 " --                  Learn vim the hard way                  --
 " --------------------------------------------------------------
