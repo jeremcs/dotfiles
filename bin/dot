@@ -45,7 +45,7 @@ for i in $vim_plugins; do
 done
 
 info "Backing up parus"
-rsync -av -e ssh parus:backup $HOME/.backup
+rsync -av -e ssh parus:backup $HOME/.backup/parus/
 success "parus backed up."
 
 success "You can have fun now !"
