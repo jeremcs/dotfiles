@@ -60,7 +60,7 @@ set t_Co=256
 set guifont=Monospace\ 8
 
 if has('gui_running')
-    colorscheme inkpot
+    colorscheme wombat256mod
 else
     colorscheme wombat256mod
 endif
@@ -136,6 +136,7 @@ execute pathogen#infect()
 
 " Powerline
 set laststatus=2
+let g:Powerline_symbols = 'fancy'
 
 nnoremap <leader>p :CtrlP<CR>
 
@@ -150,3 +151,5 @@ nnoremap <leader>mr 20<C-w><
 nnoremap <leader>ml 20<C-w>>
 
 nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
+
+set cm=blowfish
