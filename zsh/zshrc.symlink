@@ -53,3 +53,7 @@ if [ "$TMUX" = "" ]; then tmux; fi
 
 # OpenFOAM development
 alias of21="source ~/OpenFOAM/OpenFOAM-2.1.x/etc/bashrc"
+
+# Set vi-mode
+bindkey -v
+bindkey "^R" history-incremental-search-backward
