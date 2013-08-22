@@ -39,13 +39,9 @@ done
 
 unset config_files
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+plugins=(git)
 
-# To open files faster, ranger has its own file opener
-alias op='rifle'
+source $ZSH/oh-my-zsh.sh
 
 alias tmux="TERM=xterm-256color tmux"
 #export TERM="xterm-256color"
