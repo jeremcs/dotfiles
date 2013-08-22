@@ -26,6 +26,10 @@ fail () {
   exit
 }
 
+install_oh_my_zsh () {
+    git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+}
+
 install_prezto () {
     info 'installing prezto'
     git clone --recursive https://github.com/jeremcs/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
