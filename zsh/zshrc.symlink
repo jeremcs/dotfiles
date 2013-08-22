@@ -39,6 +39,11 @@ done
 
 unset config_files
 
+export ZSH=~/.oh-my-zsh
+
+export ZSH_THEME="muse"
+# export ZSH_THEME="agnoster"
+
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
