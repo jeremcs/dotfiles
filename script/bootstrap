@@ -136,7 +136,7 @@ install_dotfiles () {
   done
 }
 
-install_prezto
+install_oh_my_zsh
 install_vim_plugins
 setup_gitconfig
 install_dotfiles
