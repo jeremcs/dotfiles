@@ -23,11 +23,6 @@ fail () {
   exit
 }
 
-info "Updating Prezto"
-cd $HOME/.zprezto
-git pull 1> /dev/null
-success "Prezto updated."
-
 info "Updating dotfiles"
 cd $DOTFILES
 git pull 1> /dev/null
