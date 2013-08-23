@@ -44,7 +44,7 @@ export ZSH=~/.oh-my-zsh
 export ZSH_THEME="muse"
 # export ZSH_THEME="agnoster"
 
-plugins=(git)
+plugins=(git web-search vi-mode nyan lol)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -55,6 +55,4 @@ if [ "$TMUX" = "" ]; then tmux; fi
 # OpenFOAM development
 alias of21="source ~/OpenFOAM/OpenFOAM-2.1.x/etc/bashrc"
 
-# Set vi-mode
-bindkey -v
 bindkey "^R" history-incremental-search-backward
