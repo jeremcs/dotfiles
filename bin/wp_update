@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function usage {
+    echo "Usage : update_wp wordpress_directory"
+}
+
+if [[ $# == 0 ]] 
+then
+    usage
+    exit
+fi
+
+WP_SRC="http://wordpress.org/latest.zip"
+WP_DIR="$1"
+WP_ZIP="/tmp/wp"
+WP_NEW="$WP_ZIP/wordpress"
+
+mkdir $WP_ZIP
+wget $WP_SRC -P $WP_ZIP
+unzip $WP_ZIP/latest.zip -d $WP_ZIP
+rm -r $WP_DIR/wp-admin $WP_DIR/wp-includes
+cp -r $WP_NEW/wp-admin $WP_NEW/wp-includes $WP_DIR
+cp -R $WP_NEW/* $WP_DIR
+rm -rf $WP_ZIP
