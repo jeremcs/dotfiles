@@ -39,17 +39,14 @@ done
 
 unset config_files
 
+# oh-my-zsh
 export ZSH=~/.oh-my-zsh
-
 export ZSH_THEME="muse"
-# export ZSH_THEME="agnoster"
-
-plugins=(git web-search vi-mode nyan lol)
-
+plugins=(git vi-mode web-search nyan lol)
 source $ZSH/oh-my-zsh.sh
 
-alias tmux="TERM=xterm-256color tmux"
-#export TERM="xterm-256color"
+# TMUX
+export TERM="screen-256color"
 if [ "$TMUX" = "" ]; then tmux; fi
 
 # OpenFOAM development
