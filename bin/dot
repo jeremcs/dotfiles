@@ -5,6 +5,64 @@
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
 
+#------------------------
+# Helper
+
+usage () {
+echo "Usage : dot [options]\n"
+echo "\t[-b|--backup]\tdo minimal backup on folder"
+echo "\t[-f|--full]\tdo full backup on folder"
+echo "\t[-u|--update]\tupdate config"
+}
+
+#------------------------
+# Option parser
+
+while [ "$#" -gt "0" ]
+do
+    case $1 in
+        -u|--update)
+            UPDATE_FLAG=true
+            ;;
+        -b|--backup)
+            BACKUP_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
+        -f|--full)
+            FULL_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
+        -fu)
+            UPDATE_FLAG=true
+            FULL_FLAG=true
+            BACKUP_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
+        -bu)
+            UPDATE_FLAG=true
+            BACKUP_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "Syntax Error"
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+#------------------------
+# Pretty printing
+
 info () {
   printf "  [ \033[00;34m..\033[0m ] $1"
 }
@@ -23,22 +81,37 @@ fail () {
   exit
 }
 
-info "Updating dotfiles"
-cd $DOTFILES
-git pull 1> /dev/null
-success "dotfiles updated."
+#------------------------
+# Actual updates
 
-vim_folder=$DOTFILES/vim/vim.symlink
+if [[ $UPDATE_FLAG == "true" ]]
+then
+    info "Updating dotfiles"
+    cd $DOTFILES
+    git pull 1> /dev/null
+    success "dotfiles updated."
 
-# Parallelized git-pulls for vim plugins
-for i in `ls $vim_folder/bundle`
-    echo "cd $vim_folder/bundle/$i ; git pull" >> /tmp/vim_plugins_commands
-plugins_number=`wc -l < /tmp/vim_plugins_commands`
-< /tmp/vim_plugins_commands xargs -P $plugins_number -d '\n' -I {} sh -x -c "{}"
-rm /tmp/vim_plugins_commands
+    vim_folder=$DOTFILES/vim/vim.symlink
 
-info "Backing up parus"
-rsync -av -e ssh parus:backup $HOME/.backup/parus/
-success "parus backed up."
+    info "Updating vim plugins"
+    # Parallelized git-pulls for vim plugins
+    for i in `ls $vim_folder/bundle`
+        echo "cd $vim_folder/bundle/$i ; git pull" >> /tmp/vim_plugins_commands
+    plugins_number=`wc -l < /tmp/vim_plugins_commands`
+    < /tmp/vim_plugins_commands xargs -P $plugins_number -d '\n' -I {} sh -x -c "{}"
+    rm /tmp/vim_plugins_commands
 
-success "You can have fun now !"
+    info "Backing up parus"
+    rsync -av -e ssh parus:backup $HOME/.backup/parus/
+    success "parus backed up."
+
+    success "You can have fun now !"
+fi
+
+if [[ "$FULL_FLAG" == "true" ]]
+then
+    dobackup --full $DEST_DIR
+elif [[ "$BACKUP_FLAG" == "true" ]]
+then
+    dobackup $DEST_DIR
+fi
