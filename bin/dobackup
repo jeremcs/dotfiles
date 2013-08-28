@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Author: Jérémy Caldas
+
+# Script to backup quickly important files and folders to
+# a USB drive or any other folder
+
+# TODO: Automatically deny if there isn't enough space
+
+if [ $# -eq 0 ] ; then
+    echo 'Specify a destination directory.'
+    echo "    Usage:"
+    echo "    dobackup [--full] destination_folder"
+    exit 0
+fi
+
+if [ "$1" == "--full" ] ; then
+    if [ $# -eq 2 ] ; then
+        full_backup=true
+        dest_folder=$2
+    else
+        echo 'Specify a destination directory.'
+        echo "    Usage:"
+        echo "    dobackup [--full] destination_folder"
+        exit 0
+    fi
+else
+    dest_folder=$1
+fi
+device=`df -P $dest_folder | tail -n 1 | cut -d " " -f1`
+
+
+# Edit this list according to your needs
+backed_up_folders="\
+        ~/Documents \
+        ~/Code \
+        ~/Cours \
+        ~/Scripts \
+        ~/Templates \
+        ~/.config \
+        ~/.backup \
+        ~/.gnupg \
+        ~/.ssh \
+        ~/.dotfiles \
+        ~/.mutt \
+        ~/.muttrc \
+        ~/.mailcap \
+        ~/.signature \
+        ~/.urlview \
+        "
+if [ $full_backup ] ; then
+    backed_up_folders="\
+        $backed_up_folders \
+        ~/Images \
+        ~/Photos \
+        ~/Musique \
+        ~/Livres \
+        "
+fi
+
+# Files you'll possibly need:
+#        ~/.vim ~/.vimrc \
+#        ~/.zshrc \
+#        ~/.tmux.conf \
+#        ~/.config/ranger \
+#        ~/.gitconfig \
+#        ~/.pyradio \
+
+# Convert folder list
+folder_list=`eval "echo $backed_up_folders"`
+
+# Dry run, checks if backup will work
+required_space=`rsync --dry-run -azh --stats --del $folder_list $dest_folder \
+    | grep "transferred file size" \
+    | sed -e "s/.*\ \([0-9.]*[A-Z]\).*/\1/"`
+backup_size=`du -sch $folder_list \
+    | tail -n 1 \
+    | sed -e 's/\t/ /' \
+    | cut -d" " -f1`
+free_space=`df -h $dest_folder \
+    | tail -n 1 \
+    | tr -s ' ' \
+    | cut -d" " -f4`
+drive_size=`df -h $dest_folder \
+    | tail -n 1 \
+    | tr -s ' ' \
+    | cut -d" " -f2`
+
+echo -e "Backup size:\t$backup_size"
+echo -e "Drive size:\t$drive_size"
+echo -e "Free space:\t$free_space"
+echo -e "Required space:\t$required_space"
+
+echo "Doing backup on $dest_folder ($device)"
+read -r -p "Are you sure? [Y/n] " response
+
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]]
+then
+    rsync -azh --stats --del $folder_list $dest_folder
+else
+    echo "Aborted."
+fi
+exit 0
