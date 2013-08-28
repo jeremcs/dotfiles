@@ -29,15 +29,13 @@ git pull 1> /dev/null
 success "dotfiles updated."
 
 vim_folder=$DOTFILES/vim/vim.symlink
-for i in `ls $vim_folder/bundle`
-    vim_plugins=($vim_plugins $i)
 
-for i in $vim_plugins; do
-    info "Updating $i..."
-    cd $vim_folder/bundle/$i
-    git pull 1> /dev/null
-    success "$i updated."
-done
+# Parallelized git-pulls for vim plugins
+for i in `ls $vim_folder/bundle`
+    echo "cd $vim_folder/bundle/$i ; git pull" >> /tmp/vim_plugins_commands
+plugins_number=`wc -l < /tmp/vim_plugins_commands`
+< /tmp/vim_plugins_commands xargs -P $plugins_number -d '\n' -I {} sh -x -c "{}"
+rm /tmp/vim_plugins_commands
 
 info "Backing up parus"
 rsync -av -e ssh parus:backup $HOME/.backup/parus/
