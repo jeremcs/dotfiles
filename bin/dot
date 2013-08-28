@@ -15,6 +15,8 @@ echo "\t[-f|--full]\tdo full backup on folder"
 echo "\t[-u|--update]\tupdate config"
 }
 
+# TODO check if b, f, bu and fu have a folder as a parameter
+
 #------------------------
 # Option parser
 
@@ -88,7 +90,7 @@ if [[ $UPDATE_FLAG == "true" ]]
 then
     info "Updating dotfiles"
     cd $DOTFILES
-    git pull 1> /dev/null
+    git pull | grep -v "Already"
     success "dotfiles updated."
 
     vim_folder=$DOTFILES/vim/vim.symlink
@@ -96,10 +98,11 @@ then
     info "Updating vim plugins"
     # Parallelized git-pulls for vim plugins
     for i in `ls $vim_folder/bundle`
-        echo "cd $vim_folder/bundle/$i ; git pull" >> /tmp/vim_plugins_commands
+        echo "cd $vim_folder/bundle/$i ; git pull | grep -v 'Already'" >> /tmp/vim_plugins_commands
     plugins_number=`wc -l < /tmp/vim_plugins_commands`
-    < /tmp/vim_plugins_commands xargs -P $plugins_number -d '\n' -I {} sh -x -c "{}"
+    < /tmp/vim_plugins_commands xargs -P $plugins_number -d '\n' -I {} sh -c "{}"
     rm /tmp/vim_plugins_commands
+    success "vim plugins updated."
 
     info "Backing up parus"
     rsync -av -e ssh parus:backup $HOME/.backup/parus/
@@ -110,8 +113,12 @@ fi
 
 if [[ "$FULL_FLAG" == "true" ]]
 then
+    info "Full backup starting"
     dobackup --full $DEST_DIR
+    success "Full backup finished"
 elif [[ "$BACKUP_FLAG" == "true" ]]
 then
+    info "Backup starting"
     dobackup $DEST_DIR
+    success "Backup finished"
 fi
