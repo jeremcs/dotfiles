@@ -39,4 +39,4 @@ bind-key -n M-left prev
 # For compatibility with vim
 set -g default-terminal "screen-256color"
 
-bind-key C-b last-window
+# bind-key C-b last-window
