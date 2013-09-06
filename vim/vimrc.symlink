@@ -140,7 +140,7 @@ let g:lightline = {
     \ 'colorscheme': 'powerline',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename', 'modified' ] ]
+    \             [ 'fugitive', 'filename' ] ]
     \ },
     \ 'component_function': {
     \   'fugitive': 'LightlineFugitive',
