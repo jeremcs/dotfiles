@@ -32,11 +32,12 @@ setw -g automatic-rename on
 # Use mouse to select pane
 set -g mouse-select-pane on
 
-# ctrl+left/right cycles thru windows
+# alt+left/right cycles thru windows
 bind-key -n M-right next
 bind-key -n M-left prev
 
 # For compatibility with vim
 set -g default-terminal "screen-256color"
 
-# bind-key C-b last-window
+# Enable this if remote server for enhanced nested-tmux
+# source ~/.tmux/tmux.remote.conf
