@@ -41,7 +41,18 @@ unset config_files
 
 # oh-my-zsh
 export ZSH=~/.oh-my-zsh
-export ZSH_THEME="muse"
+# If we log as root, red theme + full info displayed anyway
+if [[ "$USER" == "root" ]]
+then
+    export ZSH_THEME="darkblood"
+# On own machine, use a minimal display
+elif [[ -z "$SSH_CLIENT" ]]
+then
+    export ZSH_THEME="muse"
+# On remote machine, display full info with a different theme
+else
+    export ZSH_THEME="juanghurtado"
+fi
 plugins=(git vi-mode web-search nyan lol)
 source $ZSH/oh-my-zsh.sh
 
