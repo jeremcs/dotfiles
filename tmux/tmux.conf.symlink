@@ -40,4 +40,4 @@ bind-key -n M-left prev
 set -g default-terminal "screen-256color"
 
 # Enable this if remote server for enhanced nested-tmux
-# source ~/.tmux/tmux.remote.conf
+source ~/.tmux/tmux.remote.conf
