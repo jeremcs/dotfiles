@@ -13,6 +13,11 @@ echo "Usage : dot [options]\n"
 echo "\t[-b|--backup]\tdo minimal backup on folder"
 echo "\t[-f|--full]\tdo full backup on folder"
 echo "\t[-u|--update]\tupdate config"
+echo "\t[-s|--servers]\tbackup servers"
+echo "Examples :"
+echo "\tdot -u"
+echo "\tdot -sub"
+echo "\tdot -suf"
 }
 
 # TODO check if b, f, bu and fu have a folder as a parameter
@@ -26,6 +31,9 @@ do
         -u|--update)
             UPDATE_FLAG=true
             ;;
+        -s|--servers)
+            SERVERS_FLAG=true
+            ;;
         -b|--backup)
             BACKUP_FLAG=true
             shift
@@ -36,10 +44,25 @@ do
             shift
             DEST_DIR=$1
             ;;
+        -suf)
+            UPDATE_FLAG=true
+            FULL_FLAG=true
+            BACKUP_FLAG=true
+            SERVERS_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
         -fu)
             UPDATE_FLAG=true
             FULL_FLAG=true
             BACKUP_FLAG=true
+            shift
+            DEST_DIR=$1
+            ;;
+        -sub)
+            UPDATE_FLAG=true
+            BACKUP_FLAG=true
+            SERVERS_FLAG=true
             shift
             DEST_DIR=$1
             ;;
@@ -104,11 +127,14 @@ then
     rm /tmp/vim_plugins_commands
     success "vim plugins updated."
 
+    success "You can have fun now !"
+fi
+
+if [[ "$SERVERS_FLAG" == "true" ]]
+then
     info "Backing up parus"
     rsync -av -e ssh parus:backup $HOME/.backup/parus/
     success "parus backed up."
-
-    success "You can have fun now !"
 fi
 
 if [[ "$FULL_FLAG" == "true" ]]
