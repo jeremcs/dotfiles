@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Resize high-res photos from camera without losing much on quality (imho :))
+
+convert $1 -quality 70% -resize 70% $1
