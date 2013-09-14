@@ -4,6 +4,42 @@
 
 # Script to backup quickly important files and folders to
 # a USB drive or any other folder
+# To use it, you have to create the ~/.backuprc file
+
+# Example of ~/.backuprc file :
+# Edit this list according to your needs
+# backed_up_folders="\
+#         ~/Documents \
+#         ~/Code \
+#         ~/Cours \
+#         ~/Scripts \
+#         ~/Templates \
+#         ~/.config \
+#         ~/.backup \
+#         ~/.gnupg \
+#         ~/.dotfiles \
+#         ~/.mutt \
+#         ~/.muttrc \
+#         ~/.mailcap \
+#         ~/.signature \
+#         ~/.urlview \
+#         "
+# if [ $full_backup ] ; then
+#     backed_up_folders="\
+#         $backed_up_folders \
+#         ~/Images \
+#         ~/Photos \
+#         ~/Musique \
+#         ~/Livres \
+#         "
+# fi
+# Files you'll possibly need:
+#        ~/.vim ~/.vimrc \
+#        ~/.zshrc \
+#        ~/.tmux.conf \
+#        ~/.config/ranger \
+#        ~/.gitconfig \
+#        ~/.pyradio \
 
 # TODO: Automatically deny if there isn't enough space
 
@@ -29,42 +65,12 @@ else
 fi
 device=`df -P $dest_folder | tail -n 1 | cut -d " " -f1`
 
+source ~/.backuprc
 
-# Edit this list according to your needs
-backed_up_folders="\
-        ~/Documents \
-        ~/Code \
-        ~/Cours \
-        ~/Scripts \
-        ~/Templates \
-        ~/.config \
-        ~/.backup \
-        ~/.gnupg \
-        ~/.ssh \
-        ~/.dotfiles \
-        ~/.mutt \
-        ~/.muttrc \
-        ~/.mailcap \
-        ~/.signature \
-        ~/.urlview \
-        "
+
 if [ $full_backup ] ; then
-    backed_up_folders="\
-        $backed_up_folders \
-        ~/Images \
-        ~/Photos \
-        ~/Musique \
-        ~/Livres \
-        "
+    backed_up_folders=$full_backed_up_folders
 fi
-
-# Files you'll possibly need:
-#        ~/.vim ~/.vimrc \
-#        ~/.zshrc \
-#        ~/.tmux.conf \
-#        ~/.config/ranger \
-#        ~/.gitconfig \
-#        ~/.pyradio \
 
 # Convert folder list
 folder_list=`eval "echo $backed_up_folders"`

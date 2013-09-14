@@ -36,6 +36,11 @@ set -g mouse-select-pane on
 bind-key -n M-right next
 bind-key -n M-left prev
 
+#Ctrl+Shift+Left-Right swaps windows
+bind-key -n C-S-Left swap-window -t -1
+bind-key -n C-S-Right swap-window -t +1
+# Note that by default, Ctrl-B . will move your window to a number
+
 # For compatibility with vim
 set -g default-terminal "screen-256color"
 

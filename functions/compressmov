@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Compress those huge .MOV videos from cameras
+
+ffmpeg -i $1 -vcodec libx264 -b 2000k -minrate 2000k -maxrate 2000k -r 30 -acodec libmp3lame -ab 192k $1.mkv
