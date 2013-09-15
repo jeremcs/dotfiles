@@ -25,6 +25,11 @@ echo "\tdot -suf"
 #------------------------
 # Option parser
 
+if [[ $# -eq 0 ]]
+then
+    UPDATE_FLAG=true
+fi
+
 while [ "$#" -gt "0" ]
 do
     case $1 in
