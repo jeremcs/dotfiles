@@ -199,6 +199,10 @@ nnoremap <leader>ml 20<C-w>>
 nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
 
 set cm=blowfish
+
+" To avoid error when using fish
+set shell=/bin/bash
+
 " Disable abusive folding for rst files (riv.vim)
 au FileType rst set nofoldenable
 let g:riv_fold_level = 0
