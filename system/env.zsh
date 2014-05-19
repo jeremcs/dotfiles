@@ -3,3 +3,5 @@ if [[ "$EDITOR" == "" ]] ; then
   # Use vim for my editor.
   export EDITOR='vim'
 fi
+
+export GOPATH="$HOME/.go"
