@@ -105,7 +105,9 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
 cnoremap %u <C-R>=expand('%:t')<CR>
-map <F4> :! pdflatex %u <CR>
+map <F6> :! pdflatex %u <CR>
+
+map <F4> :set paste! <CR>
 
 " Easier browsing through tabs
 nnoremap <leader>a gT
