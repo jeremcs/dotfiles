@@ -44,5 +44,8 @@ bind-key -n C-S-Right swap-window -t +1
 # For compatibility with vim
 set -g default-terminal "screen-256color"
 
+# Demux input to all the panes of the current window.
+bind-key a set-window-option synchronize-panes
+
 # Enable this if remote server for enhanced nested-tmux
 # source ~/.tmux/tmux.remote.conf
