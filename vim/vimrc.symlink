@@ -44,7 +44,7 @@ set expandtab     " Insert spaces instead of a tab"
 
 set showcmd
 set ignorecase
-set mouse=a
+"set mouse=a
 set autoindent
 set smartindent
 set incsearch    " Incremental search: autocomplete search with Ctrl+L
