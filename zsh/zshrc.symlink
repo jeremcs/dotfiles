@@ -71,3 +71,4 @@ if [ "$TMUX" = "" ]; then tmux; fi
 alias of21="source ~/OpenFOAM/OpenFOAM-2.1.x/etc/bashrc"
 
 bindkey "^R" history-incremental-search-backward
+bindkey -M vicmd v edit-command-line
