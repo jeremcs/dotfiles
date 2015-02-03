@@ -34,8 +34,8 @@ endif
 " --                      Basic options                        --
 " ---------------------------------------------------------------
 
-set number
-"or set relativenumber
+set relativenumber
+"or set number
 
 set tabstop=4     " Number of spaces in a tab
 set softtabstop=4 " Allows to delete a tab represented w/ spaces
