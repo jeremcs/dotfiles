@@ -134,7 +134,7 @@ inoremap kj <Esc>
 " --------------------------------------------------------------
 
 " Pathogen
-execute pathogen#infect()
+" execute pathogen#infect()
 
 " Lightline
 set laststatus=2
@@ -214,3 +214,23 @@ let g:riv_auto_fold_force = 0
 
 " Use SQL syntax coloring for Hive scripts
 au BufNewFile,BufRead *.hive set filetype=sql
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'adimit/prolog.vim'
+Plug 'Rykka/riv.vim'
+Plug 'vim-scripts/RST-Tables-CJK'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'itchyny/landscape.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'insanum/votl'
+
+" Add plugins to &runtimepath
+call plug#end()
