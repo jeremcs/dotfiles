@@ -231,6 +231,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'insanum/votl'
+Plug 'rust-lang/rust.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
