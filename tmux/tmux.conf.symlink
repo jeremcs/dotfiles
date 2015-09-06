@@ -49,3 +49,4 @@ bind-key a set-window-option synchronize-panes
 
 # Enable this if remote server for enhanced nested-tmux
 # source ~/.tmux/tmux.remote.conf
+source ~/.tmux/tmuxline.conf

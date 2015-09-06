@@ -232,6 +232,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'insanum/votl'
 Plug 'rust-lang/rust.vim'
+Plug 'edkolev/tmuxline.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
