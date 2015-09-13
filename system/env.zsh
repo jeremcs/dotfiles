@@ -4,4 +4,4 @@ if [[ "$EDITOR" == "" ]] ; then
   export EDITOR='vim'
 fi
 
-export GOPATH="$PROJECTS/go"
+export GOPATH="$HOME/.go"
