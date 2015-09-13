@@ -1,0 +1,3 @@
+# Quick print relevant disk usage
+
+du -sch $@ | sort -h
