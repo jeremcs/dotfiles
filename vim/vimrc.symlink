@@ -233,6 +233,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'insanum/votl'
 Plug 'rust-lang/rust.vim'
 Plug 'edkolev/tmuxline.vim'
+Plug 'will133/vim-dirdiff'
 
 " Add plugins to &runtimepath
 call plug#end()
