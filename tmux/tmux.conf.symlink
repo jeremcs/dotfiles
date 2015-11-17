@@ -1,3 +1,8 @@
+# set -g prefix C-Space
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+
 # Source tmux file more easily
 bind r source-file ~/.tmux.conf
 
@@ -49,3 +54,5 @@ bind-key a set-window-option synchronize-panes
 # Enable this if remote server for enhanced nested-tmux
 # source ~/.tmux/tmux.remote.conf
 source ~/.tmux/tmuxline.conf
+
+#set -g mode-mouse on
