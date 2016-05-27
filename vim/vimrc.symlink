@@ -64,6 +64,13 @@ if has('gui_running')
 else
     colorscheme wombat256mod
 endif
+
+" Demo mode with a light background for demos
+function Demo()
+    set background=light
+    colorscheme moria
+endfunction
+
 " Other colorschemes I like:
 " inkpot
 " ir_black
@@ -103,6 +110,8 @@ map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
+
+map <leader>c :! fab staging test<CR>
 
 cnoremap %u <C-R>=expand('%:t')<CR>
 map <F6> :! pdflatex %u <CR>
@@ -234,6 +243,8 @@ Plug 'insanum/votl'
 Plug 'rust-lang/rust.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'will133/vim-dirdiff'
+Plug 'onur/vim-motivate'
+Plug 'vimwiki/vimwiki'
 
 " Add plugins to &runtimepath
 call plug#end()
