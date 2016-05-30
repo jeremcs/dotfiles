@@ -132,8 +132,8 @@ nnoremap <leader>z gt
 " Edit the vimrc file
 command Vimrc :vsplit $MYVIMRC
 
-" Use space to put current line at the center of the screen
-nnoremap <Space> zz
+" Use space to insert : in normal mode
+noremap <space> :
 
 " Minimize hand movement
 inoremap kj <Esc>
