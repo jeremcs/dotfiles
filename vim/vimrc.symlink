@@ -245,6 +245,10 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'will133/vim-dirdiff'
 Plug 'onur/vim-motivate'
 Plug 'vimwiki/vimwiki'
+Plug 'blueyed/vim-diminactive'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+" Color settings for vim-diminactive
+hi ColorColumn ctermbg=Black ctermfg=DarkGrey guibg=Black
