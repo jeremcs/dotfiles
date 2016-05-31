@@ -4,3 +4,6 @@ git/gitconfig.symlink
 haskell/ghc.symlink/ghci_history
 *.netrwhist
 vim/vim.symlink/plugged/**/*
+tmux/tmux.symlink/plugins
+tmux/tmux.symlink/resurrect
+tmux/tmux.symlink/sidebar
