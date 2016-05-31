@@ -226,27 +226,27 @@ au BufNewFile,BufRead *.hive set filetype=sql
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'kien/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'adimit/prolog.vim'
+Plug 'blueyed/vim-diminactive'
+Plug 'edkolev/tmuxline.vim'
+Plug 'insanum/votl'
+Plug 'itchyny/landscape.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'onur/vim-motivate'
+Plug 'rust-lang/rust.vim'
 Plug 'Rykka/riv.vim'
-Plug 'vim-scripts/RST-Tables-CJK'
+Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'itchyny/landscape.vim'
-Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'insanum/votl'
-Plug 'rust-lang/rust.vim'
-Plug 'edkolev/tmuxline.vim'
-Plug 'will133/vim-dirdiff'
-Plug 'onur/vim-motivate'
+Plug 'vim-scripts/RST-Tables-CJK'
 Plug 'vimwiki/vimwiki'
-Plug 'blueyed/vim-diminactive'
 Plug 'wellle/targets.vim'
+Plug 'will133/vim-dirdiff'
 
 " Add plugins to &runtimepath
 call plug#end()
