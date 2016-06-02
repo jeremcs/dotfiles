@@ -253,3 +253,7 @@ call plug#end()
 
 " Color settings for vim-diminactive
 hi ColorColumn ctermbg=Black ctermfg=DarkGrey guibg=Black
+
+" Activate undo after reopening a file
+set undofile
+set undodir=~/.vim/undodir
