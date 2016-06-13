@@ -273,3 +273,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
+vnoremap <leader>j :! python -m json.tool<CR>
+nnoremap <leader>j :%! python -m json.tool<CR>
