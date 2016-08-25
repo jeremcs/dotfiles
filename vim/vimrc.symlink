@@ -48,6 +48,7 @@ set ignorecase
 set autoindent
 set smartindent
 set incsearch    " Incremental search: autocomplete search with Ctrl+L
+set hlsearch     " Highlight search terms
 
 " ---------------------------------------------------------------
 " --               Colorschemes and appearance                 --
@@ -81,9 +82,6 @@ endfunction
 " darktango
 " torte
 " twilight256
-
-" Highlight search terms
-set hlsearch
 
 map <F3> :NERDTreeToggle<CR>
 
@@ -247,8 +245,15 @@ Plug 'vim-scripts/RST-Tables-CJK'
 Plug 'vimwiki/vimwiki'
 Plug 'wellle/targets.vim'
 Plug 'will133/vim-dirdiff'
+
+Plug 'benmills/vimux'
+Plug 'davidhalter/jedi-vim'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'ervandew/supertab'
+Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-dispatch'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -276,3 +281,12 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
+
+nmap <silent> <leader>t :TestNearest --nocapture<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>tt :TestLast<CR>
+
+let test#strategy = "dispatch"
+
+nmap <silent> <leader>. :w<CR>
+
