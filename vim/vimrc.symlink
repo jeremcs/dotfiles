@@ -248,7 +248,7 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'benmills/vimux'
 Plug 'davidhalter/jedi-vim'
-Plug 'dhruvasagar/vim-table-mode'
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown'] }
 Plug 'ervandew/supertab'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
