@@ -207,7 +207,9 @@ nnoremap <leader>ml 20<C-w>>
 
 nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
 
-set cm=blowfish
+if !has("nvim")
+    set cm=blowfish
+endif
 
 " To avoid error when using fish
 set shell=/bin/bash
