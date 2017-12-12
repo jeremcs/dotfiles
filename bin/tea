@@ -1,0 +1,9 @@
+#!/bin/bash
+if [[ $# -eq 0 ]] ; then
+    echo 'Usage: tea TIME_IN_MINUTES'
+    exit 0
+fi
+INFUSING_TIME="$(($1*60))"
+notify-send -i $DOTFILES/resources/tea.png 'Tea time' 'Infusing...'
+sleep $INFUSING_TIME
+notify-send -t 600000 -i $DOTFILES/resources/tea.png 'Tea time' 'Your tea is ready\!\rPlease remove the leaves and enjoy your tea.'
