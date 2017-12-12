@@ -5,3 +5,4 @@ if [[ "$EDITOR" == "" ]] ; then
 fi
 
 export GOPATH="$HOME/.go"
+export WORKON_HOME="$HOME/.venv"
