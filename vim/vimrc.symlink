@@ -193,7 +193,8 @@ function! LightlineFilename()
 endfunction
 
 
-nnoremap <leader>p :CtrlP<CR>
+nnoremap <leader>p :Files<CR>
+nnoremap <C-p> :Files<CR>
 
 " To use the :grep function
 set grepprg=grep\ -nH\ $*
@@ -232,7 +233,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'insanum/votl'
 Plug 'itchyny/landscape.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'onur/vim-motivate'
 Plug 'rust-lang/rust.vim'
 Plug 'Rykka/riv.vim'
@@ -244,7 +244,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/RST-Tables-CJK'
-Plug 'vimwiki/vimwiki'
 Plug 'wellle/targets.vim'
 Plug 'will133/vim-dirdiff'
 
@@ -256,6 +255,10 @@ Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-dispatch'
+Plug 'danro/rename.vim'
+Plug 'sickill/vim-monokai'
+Plug 'altercation/vim-colors-solarized'
+Plug 'michalbachowski/vim-wombat256mod'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -284,11 +287,13 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
 
-nmap <silent> <leader>t :TestNearest --nocapture<CR>
+nmap <silent> <leader>t :TestNearest --nocapture --nologcapture<CR>
 nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>tt :TestLast<CR>
+nmap <silent> <leader>tt :TestLast --nocapture --nologcapture<CR>
 
 let test#strategy = "dispatch"
+let test#python#runner = 'nose'
 
 nmap <silent> <leader>. :w<CR>
 
+nnoremap <leader>f :Ag<CR>
