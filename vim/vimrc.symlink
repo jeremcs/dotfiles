@@ -44,33 +44,11 @@ set expandtab     " Insert spaces instead of a tab"
 
 set showcmd
 set ignorecase
-"set mouse=a
+set mouse=a
 set autoindent
 set smartindent
 set incsearch    " Incremental search: autocomplete search with Ctrl+L
 set hlsearch     " Highlight search terms
-
-" ---------------------------------------------------------------
-" --               Colorschemes and appearance                 --
-" ---------------------------------------------------------------
-
-" Use 256 color palette
-set t_Co=256
-
-"set guifont=Inconsolata\ 10
-set guifont=Monospace\ 8
-
-if has('gui_running')
-    colorscheme wombat256mod
-else
-    colorscheme wombat256mod
-endif
-
-" Demo mode with a light background for demos
-function Demo()
-    set background=light
-    colorscheme moria
-endfunction
 
 " Other colorschemes I like:
 " inkpot
@@ -83,7 +61,7 @@ endfunction
 " torte
 " twilight256
 
-map <F3> :NERDTreeToggle<CR>
+map <F3> <plug>NERDTreeTabsToggle<CR>
 
 let mapleader=','
 
@@ -254,9 +232,38 @@ Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-dispatch'
+Plug 'michalbachowski/vim-wombat256mod'
+Plug 'ambv/black'
+Plug 'majutsushi/tagbar'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+" ---------------------------------------------------------------
+" --               Colorschemes and appearance                 --
+" ---------------------------------------------------------------
+
+" Use 256 color palette
+set t_Co=256
+
+"set guifont=Inconsolata\ 10
+set guifont=Monospace\ 8
+
+if has('gui_running')
+    colorscheme wombat256mod
+else
+    colorscheme wombat256mod
+endif
+
+" Demo mode with a light background for demos
+function Demo()
+    set background=light
+    colorscheme moria
+endfunction
+
 
 " Color settings for vim-diminactive
 hi ColorColumn ctermbg=Black ctermfg=DarkGrey guibg=Black
@@ -289,4 +296,14 @@ nmap <silent> <leader>tt :TestLast<CR>
 let test#strategy = "dispatch"
 
 nmap <silent> <leader>. :w<CR>
+nmap <silent> <leader>f :Ag<CR>
+nmap <silent> <leader>gs :Gstatus<CR>
 
+
+let NERDTreeMouseMode=2
+augroup MouseInNERDTreeOnly
+    autocmd!
+    autocmd BufEnter NERD_tree_* set mouse=a
+    autocmd BufLeave NERD_tree_* set mouse=a
+augroup END
+set mouse=
