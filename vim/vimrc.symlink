@@ -127,7 +127,10 @@ let g:lightline = {
     \ 'colorscheme': 'powerline',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename' ] ]
+    \             [ 'fugitive', 'filename' ], [ 'tagbar' ] ]
+    \ },
+    \ 'component': {
+    \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
     \ },
     \ 'component_function': {
     \   'fugitive': 'LightlineFugitive',
@@ -137,6 +140,12 @@ let g:lightline = {
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+  return lightline#statusline(0)
+endfunction
 
 function! LightlineModified()
   if &filetype == "help"
@@ -167,7 +176,8 @@ endfunction
 function! LightlineFilename()
   return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
        \ ('' != expand('%%:t') ? expand('%%:t') : '[No Name]') .
-       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '') .
+       \ ('')
 endfunction
 
 
@@ -203,7 +213,6 @@ au BufNewFile,BufRead *.hive set filetype=sql
 call plug#begin('~/.vim/plugged')
 
 Plug 'adimit/prolog.vim'
-Plug 'blueyed/vim-diminactive'
 Plug 'edkolev/tmuxline.vim'
 Plug 'insanum/votl'
 Plug 'itchyny/landscape.vim'
@@ -226,7 +235,8 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'benmills/vimux'
 Plug 'davidhalter/jedi-vim'
-Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown'] }
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
+Plug 'szymonmaszke/vimpyter' " Mostly to visualize ipynb files in vim and not to run anything
 Plug 'ervandew/supertab'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -238,6 +248,11 @@ Plug 'majutsushi/tagbar'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
+Plug 'leafgarland/typescript-vim'
+Plug 'fvictorio/vim-extract-variable'
+
+Plug 'morhetz/gruvbox'
+Plug 'majutsushi/tagbar'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -253,9 +268,9 @@ set t_Co=256
 set guifont=Monospace\ 8
 
 if has('gui_running')
-    colorscheme wombat256mod
+    colorscheme gruvbox
 else
-    colorscheme wombat256mod
+    colorscheme gruvbox
 endif
 
 " Demo mode with a light background for demos
@@ -263,10 +278,6 @@ function Demo()
     set background=light
     colorscheme moria
 endfunction
-
-
-" Color settings for vim-diminactive
-hi ColorColumn ctermbg=Black ctermfg=DarkGrey guibg=Black
 
 " Activate undo after reopening a file
 set undofile
@@ -289,16 +300,32 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
 
+" <leader>t : unit tests
 nmap <silent> <leader>t :TestNearest --nocapture<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>tt :TestLast<CR>
 
+" <leader>b : debug
+nnoremap <silent> <leader>b Oimport nose.tools as nt; nt.set_trace()<Esc>
+nnoremap <silent> <leader>bc :%s/\(^[\t ]*\)\([^#]*set_trace.*\)/\1# \2/g<CR>
+nnoremap <silent> <leader>bd :g/set_trace/d<CR>
+
 let test#strategy = "dispatch"
 
 nmap <silent> <leader>. :w<CR>
-nmap <silent> <leader>f :Ag<CR>
-nmap <silent> <leader>gs :Gstatus<CR>
 
+" <leader>f : files
+nmap <silent> <leader>f :Ag<CR>
+
+" <leader>g : git
+nmap <silent> <leader>gs :Gstatus<CR>
+nmap <silent> <leader>gb :Gblame<CR>
+nmap <silent> <leader>gf :Gfetch<CR>
+nmap <silent> <leader>gh :BCommits<CR>
+nmap <silent> <leader>gl :Commits<CR>
+
+" <leader>x : execute
+"nmap <silent> <leader>x :Dispatch <your_command>
 
 let NERDTreeMouseMode=2
 augroup MouseInNERDTreeOnly
@@ -307,3 +334,26 @@ augroup MouseInNERDTreeOnly
     autocmd BufLeave NERD_tree_* set mouse=a
 augroup END
 set mouse=
+
+xnoremap dp :diffput<cr>
+xnoremap do :diffget<cr>
+
+nmap <F8> :TagbarToggle<CR>
+
+nmap <leader>{ :GitGutterPrevHunk<CR>
+nmap <leader>} :GitGutterNextHunk<CR>
+
+nmap <leader>dp :diffput<CR>
+nmap <leader>dg :diffget<CR>
+
+nmap <C-O> <C-w><C-w>
+
+function! s:changebranch(branch) 
+    execute 'Git checkout' . a:branch
+    call feedkeys("i")
+endfunction
+
+command! -bang Gbranch call fzf#run({
+            \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
+            \ 'sink': function('s:changebranch')
+            \ })

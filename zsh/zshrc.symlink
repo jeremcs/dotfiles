@@ -63,7 +63,7 @@ else # On a remote machine
     fi
 fi
 
-plugins=(git git-flow vi-mode web-search nyan lol fabric)
+plugins=(git git-flow vi-mode web-search lol fabric docker-compose)
 source $ZSH/oh-my-zsh.sh
 
 # TMUX
