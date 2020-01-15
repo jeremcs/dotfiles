@@ -254,6 +254,8 @@ Plug 'fvictorio/vim-extract-variable'
 Plug 'morhetz/gruvbox'
 Plug 'majutsushi/tagbar'
 
+Plug 'iberianpig/tig-explorer.vim'
+
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -300,6 +302,8 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
 
+source $HOME/.local.vimrc
+
 " <leader>t : unit tests
 nmap <silent> <leader>t :TestNearest --nocapture<CR>
 nmap <silent> <leader>T :TestFile<CR>
@@ -318,11 +322,13 @@ nmap <silent> <leader>. :w<CR>
 nmap <silent> <leader>f :Ag<CR>
 
 " <leader>g : git
-nmap <silent> <leader>gs :Gstatus<CR>
+nmap <silent> <leader>gs :TigStatus<CR>
+nmap <silent> <leader>gS :Gstatus<CR>
 nmap <silent> <leader>gb :Gblame<CR>
 nmap <silent> <leader>gf :Gfetch<CR>
-nmap <silent> <leader>gh :BCommits<CR>
-nmap <silent> <leader>gl :Commits<CR>
+nmap <silent> <leader>gh :TigOpenCurrentFile<CR>
+nmap <silent> <leader>gl :TigOpenProjectRootDir<CR>
+nmap <silent> <leader>gL :Commits<CR>
 
 " <leader>x : execute
 "nmap <silent> <leader>x :Dispatch <your_command>
