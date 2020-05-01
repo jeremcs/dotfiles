@@ -6,3 +6,5 @@ alias tea="notify-send -i $DOTFILES/resources/tea.png 'Tea time' 'Infusing...'; 
 alias t='tig'
 alias ts='tig status'
 alias ta='tig --all'
+alias vi='nvim'
+alias vim='nvim'
