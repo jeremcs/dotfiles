@@ -44,33 +44,11 @@ set expandtab     " Insert spaces instead of a tab"
 
 set showcmd
 set ignorecase
-"set mouse=a
+set mouse=a
 set autoindent
 set smartindent
 set incsearch    " Incremental search: autocomplete search with Ctrl+L
 set hlsearch     " Highlight search terms
-
-" ---------------------------------------------------------------
-" --               Colorschemes and appearance                 --
-" ---------------------------------------------------------------
-
-" Use 256 color palette
-set t_Co=256
-
-"set guifont=Inconsolata\ 10
-set guifont=Monospace\ 8
-
-if has('gui_running')
-    colorscheme wombat256mod
-else
-    colorscheme wombat256mod
-endif
-
-" Demo mode with a light background for demos
-function Demo()
-    set background=light
-    colorscheme moria
-endfunction
 
 " Other colorschemes I like:
 " inkpot
@@ -83,7 +61,7 @@ endfunction
 " torte
 " twilight256
 
-map <F3> :NERDTreeToggle<CR>
+map <F3> <plug>NERDTreeTabsToggle<CR>
 
 let mapleader=','
 
@@ -100,7 +78,7 @@ set listchars=trail:~,extends:>,precedes:<,tab:▸\
 inoremap {<CR>  {<CR>}<Esc>O
 
 " Remove tabs
-command Rmtabs :%s!\t!\ \ \ \ !g<CR>
+command! Rmtabs :%s!\t!\ \ \ \ !g<CR>
 
 " Open file relative to current directory
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
@@ -108,8 +86,6 @@ map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
-
-map <leader>c :! fab staging test<CR>
 
 cnoremap %u <C-R>=expand('%:t')<CR>
 map <F6> :! pdflatex %u <CR>
@@ -128,7 +104,7 @@ nnoremap <leader>z gt
 " --------------------------------------------------------------
 
 " Edit the vimrc file
-command Vimrc :vsplit $MYVIMRC
+command! Vimrc :vsplit $MYVIMRC
 
 " Use space to insert : in normal mode
 noremap <space> :
@@ -149,16 +125,25 @@ let g:lightline = {
     \ 'colorscheme': 'powerline',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename' ] ]
+    \             [ 'fugitive', 'filename' ], [ 'tagbar' ] ]
+    \ },
+    \ 'component': {
+    \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
     \ },
     \ 'component_function': {
     \   'fugitive': 'LightlineFugitive',
     \   'modified': 'LightlineModified',
     \   'filename': 'LightlineFilename'
     \  },
-    \ 'separator': { 'left': '⮀', 'right': '⮂' },
-    \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '', 'right': '' }
     \ }
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+  return lightline#statusline(0)
+endfunction
 
 function! LightlineModified()
   if &filetype == "help"
@@ -176,20 +161,21 @@ function! LightlineReadonly()
   if &filetype == "help"
     return ""
   elseif &readonly
-    return "⭤"
+    return " "
   else
     return ""
   endif
 endfunction
 
 function! LightlineFugitive()
-  return exists('*fugitive#head') && strlen(fugitive#head()) ? '⭠ '.fugitive#head() : ''
+  return exists('*fugitive#head') && strlen(fugitive#head()) ? ' '.fugitive#head() : ' '
 endfunction
 
 function! LightlineFilename()
   return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+       \ ('' != expand('%%:t') ? expand('%%:t') : '[No Name]') .
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '') .
+       \ ('')
 endfunction
 
 
@@ -228,7 +214,6 @@ au BufNewFile,BufRead *.hive set filetype=sql
 call plug#begin('~/.vim/plugged')
 
 Plug 'adimit/prolog.vim'
-Plug 'blueyed/vim-diminactive'
 Plug 'edkolev/tmuxline.vim'
 Plug 'insanum/votl'
 Plug 'itchyny/landscape.vim'
@@ -249,7 +234,8 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'benmills/vimux'
 Plug 'davidhalter/jedi-vim'
-Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown'] }
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
+Plug 'szymonmaszke/vimpyter' " Mostly to visualize ipynb files in vim and not to run anything
 Plug 'ervandew/supertab'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -259,12 +245,45 @@ Plug 'danro/rename.vim'
 Plug 'sickill/vim-monokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'michalbachowski/vim-wombat256mod'
+Plug 'ambv/black'
+Plug 'majutsushi/tagbar'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'
+Plug 'leafgarland/typescript-vim'
+Plug 'fvictorio/vim-extract-variable'
+Plug 'morhetz/gruvbox'
+Plug 'majutsushi/tagbar'
+Plug 'iberianpig/tig-explorer.vim'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " Add plugins to &runtimepath
 call plug#end()
 
-" Color settings for vim-diminactive
-hi ColorColumn ctermbg=Black ctermfg=DarkGrey guibg=Black
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                   \ 'syntax': 'markdown', 'ext': '.md'}]
+
+" ---------------------------------------------------------------
+" --               Colorschemes and appearance                 --
+" ---------------------------------------------------------------
+
+" Use 256 color palette
+set t_Co=256
+
+"set guifont=Inconsolata\ 10
+set guifont=Monospace\ 8
+
+if has('gui_running')
+    colorscheme gruvbox
+else
+    colorscheme gruvbox
+endif
+
+" Demo mode with a light background for demos
+function! Demo()
+    set background=light
+    colorscheme moria
+endfunction
 
 " Activate undo after reopening a file
 set undofile
@@ -287,13 +306,80 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
 
-nmap <silent> <leader>t :TestNearest --nocapture --nologcapture<CR>
+source $HOME/.local.vimrc
+
+" <leader>t : unit tests
+nmap <silent> <leader>t :TestNearest --nocapture<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>tt :TestLast --nocapture --nologcapture<CR>
+
+" <leader>b : debug
+nnoremap <silent> <leader>b Oimport nose.tools as nt; nt.set_trace()<Esc>
+nnoremap <silent> <leader>bc :%s/\(^[\t ]*\)\([^#]*set_trace.*\)/\1# \2/g<CR>
+nnoremap <silent> <leader>bd :g/set_trace/d<CR>
 
 let test#strategy = "dispatch"
 let test#python#runner = 'nose'
 
 nmap <silent> <leader>. :w<CR>
 
-nnoremap <leader>f :Ag<CR>
+" <leader>f : files
+nmap <silent> <leader>f :Ag<CR>
+vnoremap <leader>f y:Ag<Space><C-R>"<CR>
+nmap <silent> <leader>F :Files<CR>
+
+" <leader>v : buffers
+nmap <silent> <leader>v :Buffers<CR>
+
+" <leader>g : git
+nmap <silent> <leader>gs :TigStatus<CR>
+nmap <silent> <leader>gS :Gstatus<CR>
+nmap <silent> <leader>gb :Gblame<CR>
+nmap <silent> <leader>gf :Gfetch<CR>
+nmap <silent> <leader>gh :TigOpenCurrentFile<CR>
+nmap <silent> <leader>gl :TigOpenProjectRootDir<CR>
+nmap <silent> <leader>gL :Commits<CR>
+nmap <leader>gk :Git checkout
+
+" <leader>x : execute
+"nmap <silent> <leader>x :Dispatch <your_command>
+
+let NERDTreeMouseMode=2
+augroup MouseInNERDTreeOnly
+    autocmd!
+    autocmd BufEnter NERD_tree_* set mouse=a
+    autocmd BufLeave NERD_tree_* set mouse=a
+augroup END
+set mouse=
+
+xnoremap dp :diffput<cr>
+xnoremap do :diffget<cr>
+
+nmap <F8> :TagbarToggle<CR>
+
+nmap <leader>{ :GitGutterPrevHunk<CR>
+nmap <leader>} :GitGutterNextHunk<CR>
+
+nmap <leader>dp :diffput<CR>
+nmap <leader>dg :diffget<CR>
+
+nmap <C-O> <C-w><C-w>
+
+function! s:changebranch(branch) 
+    execute 'Git checkout' . a:branch
+    call feedkeys("i")
+endfunction
+
+command! -bang Gbranch call fzf#run({
+            \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
+            \ 'sink': function('s:changebranch')
+            \ })
+
+let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_checkers = ['python']
+
+" Make vimdiff prettier by keeping syntax coloring
+highlight DiffAdd    cterm=NONE ctermfg=NONE ctermbg=22
+highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
+highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
+highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23

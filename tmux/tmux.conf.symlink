@@ -31,7 +31,7 @@ setw -g monitor-activity on
 set -g visual-activity on
 
 # Automatically set window title
-setw -g automatic-rename on
+setw -g automatic-rename off
 
 # Use mouse to select pane
 set -g mouse-select-pane on
