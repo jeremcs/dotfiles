@@ -213,49 +213,58 @@ au BufNewFile,BufRead *.hive set filetype=sql
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'adimit/prolog.vim'
-Plug 'edkolev/tmuxline.vim'
-Plug 'insanum/votl'
-Plug 'itchyny/landscape.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'onur/vim-motivate'
-Plug 'rust-lang/rust.vim'
-Plug 'Rykka/riv.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
+" Text editing
+Plug 'tpope/vim-surround'                              " Easier text surrounding
+Plug 'tpope/vim-unimpaired'                            " Lots of mappings
+Plug 'tpope/vim-commentary'                            " Easier commenting
+Plug 'ervandew/supertab'                               " Better completion
+Plug 'wellle/targets.vim'                              " More ways to select text
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'vim-scripts/RST-Tables-CJK'
-Plug 'wellle/targets.vim'
-Plug 'will133/vim-dirdiff'
-
-Plug 'benmills/vimux'
-Plug 'davidhalter/jedi-vim'
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
-Plug 'szymonmaszke/vimpyter' " Mostly to visualize ipynb files in vim and not to run anything
-Plug 'ervandew/supertab'
-Plug 'janko-m/vim-test'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-dispatch'
-Plug 'danro/rename.vim'
+
+" Notes
+Plug 'insanum/votl'                                    " Outliner
+Plug 'vimwiki/vimwiki', {'branch': 'dev'}              " Use vim as a wiki
+
+" Terminal & Display
+Plug 'itchyny/lightline.vim'                           " Statusline
+Plug 'edkolev/tmuxline.vim'                            " Tmux statusline generator
+Plug 'tpope/vim-dispatch'                              " Async runner
+
+" Coding tools
+Plug 'scrooloose/syntastic'                            " Syntax checking
+Plug 'tpope/vim-fugitive'                              " Git stuff
+Plug 'iberianpig/tig-explorer.vim'                     " Use tig without getting out of vim
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'                          " Show changes in buffers
+Plug 'janko-m/vim-test'                                " Easier test runs
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy finder
+Plug 'junegunn/fzf.vim'                                " Everything <3
+Plug 'majutsushi/tagbar'                               " Show current location in the code in the status bar
+Plug 'fvictorio/vim-extract-variable'                  " Shortcut to extract variables
+
+" Python
+Plug 'davidhalter/jedi-vim'                            " Python Autocompletion
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python contextual syntax coloring
+Plug 'szymonmaszke/vimpyter'                           " Mostly to visualize ipynb files in vim and not to run anything
+
+" Files
+Plug 'will133/vim-dirdiff'                             " Vimdiff whole directories
+Plug 'danro/rename.vim'                                " Rename current buffer
+
+" Languages
+Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+
+" Color themes
+Plug 'morhetz/gruvbox'
 Plug 'sickill/vim-monokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'michalbachowski/vim-wombat256mod'
-Plug 'ambv/black'
-Plug 'majutsushi/tagbar'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'airblade/vim-gitgutter'
-Plug 'leafgarland/typescript-vim'
-Plug 'fvictorio/vim-extract-variable'
-Plug 'morhetz/gruvbox'
-Plug 'majutsushi/tagbar'
-Plug 'iberianpig/tig-explorer.vim'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'itchyny/landscape.vim'
+
+" Misc
+Plug 'onur/vim-motivate'                               " Displays a random quote
 
 " Add plugins to &runtimepath
 call plug#end()
