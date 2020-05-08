@@ -392,3 +392,10 @@ highlight DiffAdd    cterm=NONE ctermfg=NONE ctermbg=22
 highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
 highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
 highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
+
+" Move blocks (https://www.reddit.com/r/vim/comments/93mfr0/anyone_using_dragvisualsvim_by_damian_conway/)
+vnoremap <S-Right>  xpgvlolo
+vnoremap <S-left>   xhPgvhoho
+vnoremap <S-Down>   xjPgvjojo
+vnoremap <S-Up>     xkPgvkoko
+
