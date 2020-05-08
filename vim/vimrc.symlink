@@ -344,6 +344,11 @@ nmap <silent> <leader>gh :TigOpenCurrentFile<CR>
 nmap <silent> <leader>gl :TigOpenProjectRootDir<CR>
 nmap <silent> <leader>gL :Commits<CR>
 nmap <leader>gk :Git checkout
+nmap <leader>gw :Gwrite<CR>
+nmap <leader>gc :Gcommit<CR>
+nmap <leader>gp :Gpush<CR>
+nmap <leader>gd :Gdiff<CR>
+nmap <leader>gD :Gdiff 
 
 " <leader>x : execute
 "nmap <silent> <leader>x :Dispatch <your_command>
