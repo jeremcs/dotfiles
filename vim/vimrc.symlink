@@ -260,8 +260,12 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Add plugins to &runtimepath
 call plug#end()
 
+" ---------------------------------------------------------------
+" --                  Vimwiki configuration                    --
+" ---------------------------------------------------------------
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-                   \ 'syntax': 'markdown', 'ext': '.md'}]
+                   \ 'syntax': 'markdown', 'ext': '.md', 'links_space_char': '_'}]
+let g:vimwiki_markdown_link_ext = 1
 
 " ---------------------------------------------------------------
 " --               Colorschemes and appearance                 --
