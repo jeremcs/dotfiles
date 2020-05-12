@@ -1,38 +1,14 @@
-" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
-" /usr/share/vim/vimcurrent/debian.vim) and sourced by the call to :runtime
-" you can find below.  If you wish to change any of those settings, you should
-" do it in this file (/etc/vim/vimrc), since debian.vim will be overwritten
-" everytime an upgrade of the vim packages is performed.  It is recommended to
-" make changes after sourcing debian.vim since it alters the value of the
-" 'compatible' option.
-
 runtime! debian.vim
-
-syntax on
-
-" If using a dark background within the editing area and syntax highlighting
-" turn on this option as well
-set background=dark
-
-" Uncomment the following to have Vim jump to the last position when
-" reopening a file
-"if has("autocmd")
-"  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-"endif
-
-if has("autocmd")
-  filetype plugin indent on
-endif
-
-" Source a global configuration file if available
-if filereadable("/etc/vim/vimrc.local")
-  source /etc/vim/vimrc.local
-endif
-
 
 " ---------------------------------------------------------------
 " --                      Basic options                        --
 " ---------------------------------------------------------------
+if has("autocmd")
+  filetype plugin indent on
+endif
+
+set background=dark
+syntax on
 
 set relativenumber
 set number
@@ -44,24 +20,11 @@ set expandtab     " Insert spaces instead of a tab"
 
 set showcmd
 set ignorecase
-set mouse=a
+set mouse=
 set autoindent
 set smartindent
 set incsearch    " Incremental search: autocomplete search with Ctrl+L
 set hlsearch     " Highlight search terms
-
-" Other colorschemes I like:
-" inkpot
-" ir_black
-" BusyBee
-" 256-grayvim
-" wombat256mod
-" darkblue
-" darktango
-" torte
-" twilight256
-
-map <F3> <plug>NERDTreeTabsToggle<CR>
 
 let mapleader=','
 
@@ -74,50 +37,129 @@ set list
 nmap <leader>l :set list!<CR>
 set listchars=trail:~,extends:>,precedes:<,tab:▸\ 
 
-" Adds closing bracket
-inoremap {<CR>  {<CR>}<Esc>O
+" To use the :grep function
+set grepprg=grep\ -nH\ $*
 
-" Remove tabs
-command! Rmtabs :%s!\t!\ \ \ \ !g<CR>
+" Word autocompletion
+" Shortcut is ^X^K in insert mode
+set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
 
-" Open file relative to current directory
-cnoremap %% <C-R>=expand('%:h').'/'<CR>
-map <leader>ew :e %%
-map <leader>es :sp %%
-map <leader>ev :vsp %%
-map <leader>et :tabe %%
+if !has("nvim")
+    set cm=blowfish
+endif
 
-cnoremap %u <C-R>=expand('%:t')<CR>
-map <F6> :! pdflatex %u <CR>
+" To avoid error when using fish
+set shell=/bin/bash
 
-map <F4> :set paste! <CR>
+" Use SQL syntax coloring for Hive scripts
+au BufNewFile,BufRead *.hive set filetype=sql
 
-" Easier browsing through tabs
-nnoremap <leader>a gT
-nnoremap <leader>z gt
+" Activate undo after reopening a file
+set undofile
+set undodir=~/.vim/undodir
 
-" Display column for 80char width
-"set colorcolumn=80
 
-" --------------------------------------------------------------
-" --                  Learn vim the hard way                  --
-" --------------------------------------------------------------
+" ---------------------------------------------------------------
+" --                        Plugins                            --
+" ---------------------------------------------------------------
 
-" Edit the vimrc file
-command! Vimrc :vsplit $MYVIMRC
+call plug#begin('~/.vim/plugged')
 
-" Use space to insert : in normal mode
-noremap <space> :
+" Text editing
+Plug 'tpope/vim-surround'                              " Easier text surrounding
+Plug 'tpope/vim-commentary'                            " Easier commenting
+Plug 'ervandew/supertab'                               " Better completion
+Plug 'wellle/targets.vim'                              " More ways to select text
+Plug 'tpope/vim-repeat'
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
 
-" Minimize hand movement
-inoremap kj <Esc>
+" Notes
+Plug 'insanum/votl'                                    " Outliner
+Plug 'vimwiki/vimwiki', {'branch': 'dev'}              " Use vim as a wiki
 
-" --------------------------------------------------------------
-" --                         Plugins                          --
-" --------------------------------------------------------------
+" Terminal & Display
+Plug 'itchyny/lightline.vim'                           " Statusline
+Plug 'edkolev/tmuxline.vim'                            " Tmux statusline generator
+Plug 'tpope/vim-dispatch'                              " Async runner
 
-" Pathogen
-" execute pathogen#infect()
+" Coding tools
+Plug 'scrooloose/syntastic'                            " Syntax checking
+Plug 'tpope/vim-fugitive'                              " Git stuff
+Plug 'iberianpig/tig-explorer.vim'                     " Use tig without getting out of vim
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'                          " Show changes in buffers
+Plug 'janko-m/vim-test'                                " Easier test runs
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy finder
+Plug 'junegunn/fzf.vim'                                " Everything <3
+Plug 'majutsushi/tagbar'                               " Show current location in the code in the status bar
+Plug 'fvictorio/vim-extract-variable'                  " Shortcut to extract variables
+
+" Python
+Plug 'davidhalter/jedi-vim'                            " Python Autocompletion
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python contextual syntax coloring
+Plug 'szymonmaszke/vimpyter'                           " Mostly to visualize ipynb files in vim and not to run anything
+
+" Files
+Plug 'will133/vim-dirdiff'                             " Vimdiff whole directories
+Plug 'danro/rename.vim'                                " Rename current buffer
+
+" Languages
+Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+
+" Color themes
+Plug 'morhetz/gruvbox'
+Plug 'sickill/vim-monokai'
+Plug 'altercation/vim-colors-solarized'
+Plug 'michalbachowski/vim-wombat256mod'
+Plug 'itchyny/landscape.vim'
+
+" Misc
+Plug 'onur/vim-motivate'                               " Displays a random quote
+
+" Add plugins to &runtimepath
+call plug#end()
+
+" ---------------------------------------------------------------
+" --               Colorschemes and appearance                 --
+" ---------------------------------------------------------------
+
+" Use 256 color palette
+set t_Co=256
+
+set guifont=Inconsolata\ 10
+
+if has('gui_running')
+    colorscheme gruvbox
+else
+    colorscheme gruvbox
+endif
+" Other colorschemes I like:
+" inkpot
+" ir_black
+" BusyBee
+" 256-grayvim
+" wombat256mod
+" darkblue
+" darktango
+" torte
+" twilight256
+
+" Demo mode with a light background for demos
+function! Demo()
+    set background=light
+    colorscheme moria
+endfunction
+
+" Make vimdiff prettier by keeping syntax coloring
+highlight DiffAdd    cterm=NONE ctermfg=NONE ctermbg=22
+highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
+highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
+highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
+
+" ---------------------------------------------------------------
+" --                 Lightline configuration                   --
+" ---------------------------------------------------------------
 
 " Lightline
 set laststatus=2
@@ -178,129 +220,84 @@ function! LightlineFilename()
        \ ('')
 endfunction
 
-
-nnoremap <leader>p :Files<CR>
-nnoremap <C-p> :Files<CR>
-
-" To use the :grep function
-set grepprg=grep\ -nH\ $*
-
-" Word autocompletion
-" Shortcut is ^X^K in insert mode
-set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
-
-nnoremap <leader>mr 20<C-w><
-nnoremap <leader>ml 20<C-w>>
-
-nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
-
-if !has("nvim")
-    set cm=blowfish
-endif
-
-" To avoid error when using fish
-set shell=/bin/bash
-
-" Disable abusive folding for rst files (riv.vim)
-au FileType rst set nofoldenable
-let g:riv_fold_level = 0
-let g:riv_fold_auto_update = 0
-let rst_syntax_folding = 0
-let g:riv_auto_fold_force = 0
-
-" Use SQL syntax coloring for Hive scripts
-au BufNewFile,BufRead *.hive set filetype=sql
-
-call plug#begin('~/.vim/plugged')
-
-" Text editing
-Plug 'tpope/vim-surround'                              " Easier text surrounding
-Plug 'tpope/vim-unimpaired'                            " Lots of mappings
-Plug 'tpope/vim-commentary'                            " Easier commenting
-Plug 'ervandew/supertab'                               " Better completion
-Plug 'wellle/targets.vim'                              " More ways to select text
-Plug 'tpope/vim-repeat'
-Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
-
-" Notes
-Plug 'insanum/votl'                                    " Outliner
-Plug 'vimwiki/vimwiki', {'branch': 'dev'}              " Use vim as a wiki
-
-" Terminal & Display
-Plug 'itchyny/lightline.vim'                           " Statusline
-Plug 'edkolev/tmuxline.vim'                            " Tmux statusline generator
-Plug 'tpope/vim-dispatch'                              " Async runner
-
-" Coding tools
-Plug 'scrooloose/syntastic'                            " Syntax checking
-Plug 'tpope/vim-fugitive'                              " Git stuff
-Plug 'iberianpig/tig-explorer.vim'                     " Use tig without getting out of vim
-"Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'airblade/vim-gitgutter'                          " Show changes in buffers
-Plug 'janko-m/vim-test'                                " Easier test runs
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy finder
-Plug 'junegunn/fzf.vim'                                " Everything <3
-Plug 'majutsushi/tagbar'                               " Show current location in the code in the status bar
-Plug 'fvictorio/vim-extract-variable'                  " Shortcut to extract variables
-
-" Python
-Plug 'davidhalter/jedi-vim'                            " Python Autocompletion
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python contextual syntax coloring
-Plug 'szymonmaszke/vimpyter'                           " Mostly to visualize ipynb files in vim and not to run anything
-
-" Files
-Plug 'will133/vim-dirdiff'                             " Vimdiff whole directories
-Plug 'danro/rename.vim'                                " Rename current buffer
-
-" Languages
-Plug 'rust-lang/rust.vim'
-Plug 'leafgarland/typescript-vim'
-
-" Color themes
-Plug 'morhetz/gruvbox'
-Plug 'sickill/vim-monokai'
-Plug 'altercation/vim-colors-solarized'
-Plug 'michalbachowski/vim-wombat256mod'
-Plug 'itchyny/landscape.vim'
-
-" Misc
-Plug 'onur/vim-motivate'                               " Displays a random quote
-
-" Add plugins to &runtimepath
-call plug#end()
-
 " ---------------------------------------------------------------
-" --                  Vimwiki configuration                    --
+" --                 Plugins configuration                     --
 " ---------------------------------------------------------------
+
+" vimwiki configuration
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                    \ 'syntax': 'markdown', 'ext': '.md', 'links_space_char': '_'}]
 let g:vimwiki_markdown_link_ext = 1
 
+" vim-test configuration
+let test#strategy = "dispatch"
+let test#python#runner = 'nose'
+
+" Netrw configuration
+let g:netrw_banner=0
+let g:netrw_browse_split=4
+let g:netrw_altv=1
+let g:netrw_liststyle=3
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" Syntastic
+let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_checkers = ['python']
+
+
 " ---------------------------------------------------------------
-" --               Colorschemes and appearance                 --
+" --                       Shortcuts                           --
 " ---------------------------------------------------------------
 
-" Use 256 color palette
-set t_Co=256
+nmap <C-O> <C-w><C-w>
 
-"set guifont=Inconsolata\ 10
-set guifont=Monospace\ 8
+" Adds closing bracket
+inoremap {<CR>  {<CR>}<Esc>O
 
-if has('gui_running')
-    colorscheme gruvbox
-else
-    colorscheme gruvbox
-endif
+" Remove tabs
+command! Rmtabs :%s!\t!\ \ \ \ !g<CR>
 
-" Demo mode with a light background for demos
-function! Demo()
-    set background=light
-    colorscheme moria
-endfunction
+" Display column for 80char width
+"set colorcolumn=80
 
-" Activate undo after reopening a file
-set undofile
-set undodir=~/.vim/undodir
+" Edit the vimrc file
+command! Vimrc :vsplit $MYVIMRC
+
+" Use space to insert : in normal mode
+noremap <space> :
+
+" Properly paste stuff
+map <F4> :set paste! <CR>
+
+" Misc
+nnoremap <F5> :tabe ~/Documents/todo.votl<CR>
+map <F6> :! pdflatex %u <CR>
+nmap <F8> :TagbarToggle<CR>
+
+" Move blocks (https://www.reddit.com/r/vim/comments/93mfr0/anyone_using_dragvisualsvim_by_damian_conway/)
+vnoremap <S-Right>  xpgvlolo
+vnoremap <S-left>   xhPgvhoho
+vnoremap <S-Down>   xjPgvjojo
+vnoremap <S-Up>     xkPgvkoko
+
+" Only mappings used from unimpaired.vim
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]q :cnext<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [<C-Q> :cpfile<CR>
+nnoremap ]<C-Q> :cnfile<CR>
+
+" ---------------------------------------------------------------
+" --                Shortcuts (<leader> & fzf)                 --
+" ---------------------------------------------------------------
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
@@ -316,10 +313,27 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
+" <leader>. : save
+nmap <silent> <leader>. :w<CR>
+
+" <leader>a <leader>z : easier tab browsing
+nnoremap <leader>a gT
+nnoremap <leader>z gt
+
+" <leader>e : Open files relative to current directory
+cnoremap %% <C-R>=expand('%:h').'/'<CR>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
+" <leader>m move splits
+nnoremap <leader>mr 20<C-w><
+nnoremap <leader>ml 20<C-w>>
+
+" <leader>j : prettify json
 vnoremap <leader>j :! python -m json.tool<CR>
 nnoremap <leader>j :%! python -m json.tool<CR>
-
-source $HOME/.local.vimrc
 
 " <leader>t : unit tests
 nmap <silent> <leader>t :TestNearest --nocapture<CR>
@@ -331,15 +345,11 @@ nnoremap <silent> <leader>b Oimport nose.tools as nt; nt.set_trace()<Esc>
 nnoremap <silent> <leader>bc :%s/\(^[\t ]*\)\([^#]*set_trace.*\)/\1# \2/g<CR>
 nnoremap <silent> <leader>bd :g/set_trace/d<CR>
 
-let test#strategy = "dispatch"
-let test#python#runner = 'nose'
-
-nmap <silent> <leader>. :w<CR>
-
 " <leader>f : files
 nmap <silent> <leader>f :Ag<CR>
 vnoremap <leader>f y:Ag<Space><C-R>"<CR>
 nmap <silent> <leader>F :Files<CR>
+nnoremap <C-p> :Files<CR>
 
 " <leader>v : buffers
 nmap <silent> <leader>v :Buffers<CR>
@@ -359,30 +369,28 @@ nmap <leader>gp :Gpush<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gD :Gdiff 
 
-" <leader>x : execute
-"nmap <silent> <leader>x :Dispatch <your_command>
-
-let NERDTreeMouseMode=2
-augroup MouseInNERDTreeOnly
-    autocmd!
-    autocmd BufEnter NERD_tree_* set mouse=a
-    autocmd BufLeave NERD_tree_* set mouse=a
-augroup END
-set mouse=
-
-xnoremap dp :diffput<cr>
-xnoremap do :diffget<cr>
-
-nmap <F8> :TagbarToggle<CR>
-
 nmap <leader>{ :GitGutterPrevHunk<CR>
 nmap <leader>} :GitGutterNextHunk<CR>
 
+" <leader>d : diffs
 nmap <leader>dp :diffput<CR>
 nmap <leader>dg :diffget<CR>
 
-nmap <C-O> <C-w><C-w>
+" <leader>c work stuff
+" nnoremap <leader>c
 
+" <leader>x : quickly execute some command
+"nmap <silent> <leader>x :Dispatch <your_command>
+
+" ---------------------------------------------------------------
+" --                   Import local files                      --
+" ---------------------------------------------------------------
+
+source $HOME/.local.vimrc
+
+" ---------------------------------------------------------------
+" --                        WIP                                --
+" ---------------------------------------------------------------
 function! s:changebranch(branch) 
     execute 'Git checkout' . a:branch
     call feedkeys("i")
@@ -392,19 +400,4 @@ command! -bang Gbranch call fzf#run({
             \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
             \ 'sink': function('s:changebranch')
             \ })
-
-let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checkers = ['python']
-
-" Make vimdiff prettier by keeping syntax coloring
-highlight DiffAdd    cterm=NONE ctermfg=NONE ctermbg=22
-highlight DiffDelete cterm=NONE ctermfg=NONE ctermbg=52
-highlight DiffChange cterm=NONE ctermfg=NONE ctermbg=23
-highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
-
-" Move blocks (https://www.reddit.com/r/vim/comments/93mfr0/anyone_using_dragvisualsvim_by_damian_conway/)
-vnoremap <S-Right>  xpgvlolo
-vnoremap <S-left>   xhPgvhoho
-vnoremap <S-Down>   xjPgvjojo
-vnoremap <S-Up>     xkPgvkoko
 
