@@ -311,7 +311,7 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-j> <plug>(fzf-complete-file-rg)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
@@ -346,8 +346,8 @@ nnoremap <silent> <leader>bc :%s/\(^[\t ]*\)\([^#]*set_trace.*\)/\1# \2/g<CR>
 nnoremap <silent> <leader>bd :g/set_trace/d<CR>
 
 " <leader>f : files
-nmap <silent> <leader>f :Ag<CR>
-vnoremap <leader>f y:Ag<Space><C-R>"<CR>
+nmap <silent> <leader>f :Rg<CR>
+vnoremap <leader>f y:Rg<Space><C-R>"<CR>
 nmap <silent> <leader>F :Files<CR>
 nnoremap <C-p> :Files<CR>
 
