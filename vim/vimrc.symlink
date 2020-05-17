@@ -176,7 +176,7 @@ let g:lightline = {
     \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
     \ },
     \ 'component_function': {
-    \   'fugitive': 'LightlineFugitive',
+    \   'fugitive': 'FugitiveHead',
     \   'modified': 'LightlineModified',
     \   'filename': 'LightlineFilename'
     \  },
@@ -210,10 +210,6 @@ function! LightlineReadonly()
   else
     return ""
   endif
-endfunction
-
-function! LightlineFugitive()
-  return exists('*fugitive#head') && strlen(fugitive#head()) ? ' '.fugitive#head() : ' '
 endfunction
 
 function! LightlineFilename()
