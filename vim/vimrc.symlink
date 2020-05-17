@@ -170,9 +170,10 @@ let g:lightline = {
     \ 'colorscheme': 'powerline',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename' ], [ 'tagbar' ] ]
+    \             [ 'fugitive', 'pretty_bufnum', 'filename' ], [ 'tagbar' ] ]
     \ },
     \ 'component': {
+    \   'pretty_bufnum': '[%n]',
     \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
     \ },
     \ 'component_function': {
@@ -181,7 +182,7 @@ let g:lightline = {
     \   'filename': 'LightlineFilename'
     \  },
     \ 'separator': { 'left': '', 'right': '' },
-    \ 'subseparator': { 'left': '', 'right': '' }
+    \ 'subseparator': { 'left': '|', 'right': '|' }
     \ }
 
 let g:tagbar_status_func = 'TagbarStatusFunc'
