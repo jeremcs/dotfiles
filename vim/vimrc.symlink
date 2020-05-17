@@ -267,6 +267,10 @@ command! Vimrc :vsplit $MYVIMRC
 " Use space to insert : in normal mode
 noremap <space> :
 
+" easier tab browsing with a single keystroke instead of gtgtgt
+nnoremap <M-t> :tabp<CR>
+nnoremap <M-n> :tabn<CR>
+
 " Properly paste stuff
 map <F4> :set paste! <CR>
 
@@ -315,10 +319,6 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
 " <leader>. : save
 nmap <silent> <leader>. :w<CR>
-
-" <leader>a <leader>z : easier tab browsing
-nnoremap <leader>a gT
-nnoremap <leader>z gt
 
 " <leader>e : Open files relative to current directory
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
