@@ -4,7 +4,7 @@ runtime! debian.vim
 " --                      Basic options                        --
 " ---------------------------------------------------------------
 if has("autocmd")
-  filetype plugin indent on
+    filetype plugin indent on
 endif
 
 set background=dark
@@ -167,57 +167,57 @@ highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
 " Lightline
 set laststatus=2
 let g:lightline = {
-    \ 'colorscheme': 'powerline',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'pretty_bufnum', 'filename' ], [ 'tagbar' ] ]
-    \ },
-    \ 'component': {
-    \   'pretty_bufnum': '[%n]',
-    \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
-    \ },
-    \ 'component_function': {
-    \   'fugitive': 'FugitiveHead',
-    \   'modified': 'LightlineModified',
-    \   'filename': 'LightlineFilename'
-    \  },
-    \ 'separator': { 'left': '', 'right': '' },
-    \ 'subseparator': { 'left': '|', 'right': '|' }
-    \ }
+            \ 'colorscheme': 'powerline',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'fugitive', 'pretty_bufnum', 'filename' ], [ 'tagbar' ] ]
+            \ },
+            \ 'component': {
+            \   'pretty_bufnum': '[%n]',
+            \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
+            \ },
+            \ 'component_function': {
+            \   'fugitive': 'FugitiveHead',
+            \   'modified': 'LightlineModified',
+            \   'filename': 'LightlineFilename'
+            \  },
+            \ 'separator': { 'left': '', 'right': '' },
+            \ 'subseparator': { 'left': '|', 'right': '|' }
+            \ }
 
 let g:tagbar_status_func = 'TagbarStatusFunc'
 function! TagbarStatusFunc(current, sort, fname, ...) abort
     let g:lightline.fname = a:fname
-  return lightline#statusline(0)
+    return lightline#statusline(0)
 endfunction
 
 function! LightlineModified()
-  if &filetype == "help"
-    return ""
-  elseif &modified
-    return "+"
-  elseif &modifiable
-    return ""
-  else
-    return ""
-  endif
+    if &filetype == "help"
+        return ""
+    elseif &modified
+        return "+"
+    elseif &modifiable
+        return ""
+    else
+        return ""
+    endif
 endfunction
 
 function! LightlineReadonly()
-  if &filetype == "help"
-    return ""
-  elseif &readonly
-    return " "
-  else
-    return ""
-  endif
+    if &filetype == "help"
+        return ""
+    elseif &readonly
+        return " "
+    else
+        return ""
+    endif
 endfunction
 
 function! LightlineFilename()
-  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-       \ ('' != expand('%%:t') ? expand('%%:t') : '[No Name]') .
-       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '') .
-       \ ('')
+    return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+                \ ('' != expand('%%:t') ? expand('%%:t') : '[No Name]') .
+                \ ('' != LightlineModified() ? ' ' . LightlineModified() : '') .
+                \ ('')
 endfunction
 
 " ---------------------------------------------------------------
@@ -226,7 +226,7 @@ endfunction
 
 " vimwiki configuration
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-                   \ 'syntax': 'markdown', 'ext': '.md', 'links_space_char': '_'}]
+            \ 'syntax': 'markdown', 'ext': '.md', 'links_space_char': '_'}]
 let g:vimwiki_markdown_link_ext = 1
 
 " vim-test configuration
