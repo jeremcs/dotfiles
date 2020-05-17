@@ -12,6 +12,7 @@ syntax on
 
 set relativenumber
 set number
+set hidden
 
 set tabstop=4     " Number of spaces in a tab
 set softtabstop=4 " Allows to delete a tab represented w/ spaces
