@@ -228,6 +228,11 @@ endfunction
 let g:vimwiki_list = [{'path': '~/vimwiki/',
             \ 'syntax': 'markdown', 'ext': '.md', 'links_space_char': '_'}]
 let g:vimwiki_markdown_link_ext = 1
+let g:vimwiki_map_prefix = '<Leader>n'
+let g:vimwiki_folding = 'list'
+
+" vim table mode for markdown
+let g:table_mode_corner='|'
 
 " vim-test configuration
 let test#strategy = "dispatch"
@@ -298,6 +303,9 @@ nnoremap [Q :cfirst<CR>
 nnoremap ]Q :clast<CR>
 nnoremap [<C-Q> :cpfile<CR>
 nnoremap ]<C-Q> :cnfile<CR>
+
+" Close all buffers except the current one
+command! BufOnly silent! execute "%bd|e#|bd#"
 
 " ---------------------------------------------------------------
 " --                Shortcuts (<leader> & fzf)                 --
