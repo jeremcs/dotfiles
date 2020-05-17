@@ -86,8 +86,8 @@ Plug 'tpope/vim-dispatch'                              " Async runner
 Plug 'scrooloose/syntastic'                            " Syntax checking
 Plug 'tpope/vim-fugitive'                              " Git stuff
 Plug 'iberianpig/tig-explorer.vim'                     " Use tig without getting out of vim
-"Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'                          " Show changes in buffers
+Plug 'airblade/vim-rooter'                             " Change cwd
 Plug 'janko-m/vim-test'                                " Easier test runs
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy finder
 Plug 'junegunn/fzf.vim'                                " Everything <3
@@ -96,7 +96,9 @@ Plug 'fvictorio/vim-extract-variable'                  " Shortcut to extract var
 
 " Python
 Plug 'davidhalter/jedi-vim'                            " Python Autocompletion
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python contextual syntax coloring
+if has("nvim")
+    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python contextual syntax coloring
+endif
 Plug 'szymonmaszke/vimpyter'                           " Mostly to visualize ipynb files in vim and not to run anything
 
 " Files
