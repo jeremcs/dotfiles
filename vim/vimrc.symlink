@@ -77,6 +77,9 @@ Plug 'dhruvasagar/vim-table-mode', { 'for': ['votl','rst','markdown','text'] }
 " Notes
 Plug 'insanum/votl'                                    " Outliner
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}              " Use vim as a wiki
+Plug 'tpope/vim-speeddating'                           " Date shortcuts
+Plug 'junegunn/goyo.vim'                               " Focused writing
+Plug 'junegunn/limelight.vim'
 
 " Terminal & Display
 Plug 'itchyny/lightline.vim'                           " Statusline
@@ -107,6 +110,7 @@ Plug 'will133/vim-dirdiff'                             " Vimdiff whole directori
 Plug 'danro/rename.vim'                                " Rename current buffer
 
 " Languages
+Plug 'juvenn/mustache.vim'                             " Helm charts
 Plug 'rust-lang/rust.vim'
 Plug 'leafgarland/typescript-vim'
 
@@ -116,9 +120,12 @@ Plug 'sickill/vim-monokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'michalbachowski/vim-wombat256mod'
 Plug 'itchyny/landscape.vim'
+Plug 'majutsushi/tagbar'
 
 " Misc
 Plug 'onur/vim-motivate'                               " Displays a random quote
+Plug 'junegunn/vader.vim'
+Plug 'Vimjas/vint'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -167,13 +174,13 @@ highlight DiffText   cterm=NONE ctermfg=NONE ctermbg=23
 " Lightline
 set laststatus=2
 let g:lightline = {
-            \ 'colorscheme': 'powerline',
+            \ 'colorscheme': 'one',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'fugitive', 'pretty_bufnum', 'filename' ], [ 'tagbar' ] ]
+            \             [ 'fugitive', 'filename' ], [ 'tagbar' ] ],
+            \ 'right': [ ['lineinfo'], ['percent'] ]
             \ },
             \ 'component': {
-            \   'pretty_bufnum': '[%n]',
             \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
             \ },
             \ 'component_function': {
@@ -250,12 +257,21 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['python']
 
+" votl
+nnoremap <leader>jp /:current:<CR>
+
+" Goyo
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+
 
 " ---------------------------------------------------------------
 " --                       Shortcuts                           --
 " ---------------------------------------------------------------
-
-nmap <C-O> <C-w><C-w>
 
 " Adds closing bracket
 inoremap {<CR>  {<CR>}<Esc>O
@@ -307,6 +323,13 @@ nnoremap ]<C-Q> :cnfile<CR>
 " Close all buffers except the current one
 command! BufOnly silent! execute "%bd|e#|bd#"
 
+" Insert date
+nnoremap <leader><leader>D "=strftime('%Y-%m-%d')<C-M>p
+
+" Search in file from a visual selection
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+
 " ---------------------------------------------------------------
 " --                Shortcuts (<leader> & fzf)                 --
 " ---------------------------------------------------------------
@@ -357,25 +380,38 @@ nnoremap <silent> <leader>bd :g/set_trace/d<CR>
 nmap <silent> <leader>f :Rg<CR>
 vnoremap <leader>f y:Rg<Space><C-R>"<CR>
 nmap <silent> <leader>F :Files<CR>
+nmap <silent> <leader><leader>f :BLines<CR>
 nnoremap <C-p> :Files<CR>
 
 " <leader>v : buffers
 nmap <silent> <leader>v :Buffers<CR>
+nmap <silent> <leader>V :Lines<CR>
+vnoremap <leader>V y:Lines<Space><C-R>"<CR>
 
 " <leader>g : git
-nmap <silent> <leader>gs :TigStatus<CR>
-nmap <silent> <leader>gS :Gstatus<CR>
+nmap <silent> <leader>gs :ToggleGStatus<CR>
 nmap <silent> <leader>gb :Gblame<CR>
-nmap <silent> <leader>gf :Gfetch<CR>
+nmap <silent> <leader>gf :Gfetch --all<CR>
 nmap <silent> <leader>gh :TigOpenCurrentFile<CR>
 nmap <silent> <leader>gl :TigOpenProjectRootDir<CR>
 nmap <silent> <leader>gL :Commits<CR>
-nmap <leader>gk :Git checkout
+nmap <leader>gk :Gbranch<CR>
+nmap <leader>gK :Git checkout -b<Space>
 nmap <leader>gw :Gwrite<CR>
-nmap <leader>gc :Gcommit<CR>
+nmap <leader>gc :Git commit -m<Space>
 nmap <leader>gp :Gpush<CR>
+nmap <leader>gP :Gpush -u origin<Space>
+nmap <leader>gu :Gpull<CR>
+nmap <leader>gU :GpullBranch<Space>
 nmap <leader>gd :Gdiff<CR>
-nmap <leader>gD :Gdiff 
+nmap <leader>gD :Gdiff<Space>
+nmap <leader>gr :OpenBranchFiles<CR>
+nmap <leader>gR :OpenBranchFiles<Space>
+
+" <leader>x : execute
+"nmap <silent> <leader>x :Dispatch <your_command>
+nnoremap <leader>X :nmap <silent> <leader>x :Dispatch :!
+
 
 nmap <leader>{ :GitGutterPrevHunk<CR>
 nmap <leader>} :GitGutterNextHunk<CR>
@@ -387,8 +423,6 @@ nmap <leader>dg :diffget<CR>
 " <leader>c work stuff
 " nnoremap <leader>c
 
-" <leader>x : quickly execute some command
-"nmap <silent> <leader>x :Dispatch <your_command>
 
 " ---------------------------------------------------------------
 " --                   Import local files                      --
@@ -396,16 +430,60 @@ nmap <leader>dg :diffget<CR>
 
 source $HOME/.local.vimrc
 
-" ---------------------------------------------------------------
-" --                        WIP                                --
-" ---------------------------------------------------------------
+
+" --------------------------- Updating other branches ----------------------------------
+function! s:PullBranch(branch_name)
+    execute "Git fetch origin ".a:branch_name.":".a:branch_name
+endfunction
+
+command! -nargs=* GpullBranch :call s:PullBranch(<f-args>)<CR>
+
+" --------------------------- Changing branches ----------------------------------
 function! s:changebranch(branch) 
-    execute 'Git checkout' . a:branch
-    call feedkeys("i")
+    if a:branch =~ 'remotes\/origin\/.*'
+        let l:branch = substitute(a:branch, 'remotes\/origin\/\(.*\)', '\1', '')
+    elseif a:branch =~ 'origin\/.*'
+        let l:branch = substitute(a:branch, 'origin\/\(.*\)', '\1', '')
+    else
+        let l:branch = a:branch
+    endif
+    execute 'Git checkout' . l:branch
 endfunction
 
 command! -bang Gbranch call fzf#run({
-            \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
-            \ 'sink': function('s:changebranch')
+            \ 'source': '{ git branch --sort=-committerdate --no-color & git branch -r --sort=-committerdate --no-color; } | grep -v "^\* " ', 
+            \ 'sink': function('s:changebranch'),
+            \ 'options': ['--no-sort']
             \ })
+"
+" ----------------------------- Opening files from a branch -----------------------------------
+"let g:open_branch_files_default_branch = "your_base_branch"
+
+function! s:OpenBranchFiles(...)
+    if a:0
+        let l:branch_name = a:1
+    else
+        let l:branch_name = g:open_branch_files_default_branch
+    endif
+    let filenames = systemlist('git diff --name-only $(git merge-base '.l:branch_name.' HEAD)')
+    for filename in filenames
+        execute "edit ".filename
+    endfor
+endfunction
+
+command! -nargs=* OpenBranchFiles :call s:OpenBranchFiles(<f-args>)<CR>
+
+" --------------------------------- Improve Gstatus --------------------------------------------
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        Gstatus
+    endif
+endfunction
+command! ToggleGStatus :call ToggleGStatus()
+
+" ----------------------------- Vimwiki diary template -----------------------------------
+command! TemplateDiary :r %:h/template.md
+let g:vimwiki_diary_date_format = '%Y-%W'
 
