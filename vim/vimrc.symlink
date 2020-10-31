@@ -33,9 +33,8 @@ let mapleader=','
 filetype on
 filetype plugin on
 
-" Display and toggle display of invisible characters
+" Display invisible characters
 set list
-nmap <leader>l :set list!<CR>
 set listchars=trail:~,extends:>,precedes:<,tab:▸\ 
 
 " To use the :grep function
@@ -485,5 +484,31 @@ command! ToggleGStatus :call ToggleGStatus()
 
 " ----------------------------- Vimwiki diary template -----------------------------------
 command! TemplateDiary :r %:h/template.md
-let g:vimwiki_diary_date_format = '%Y-%W'
 
+" ----------------------------- Minimal markdown to html editing -------------------------
+" Requires: pandoc, imagemagick, xclip, a css file
+" Best served with vimwiki, goyo and limelight
+
+" Paste images in markdown from clipboard to the current buffer's folder and make image a reasonable size
+inoremap <C-x><C-i> <C-r>=
+        \system(
+            \'image='.expand('%:t:r').'__$(date +%s).jpg &&
+            \ image_path='.expand('%:h').'/$image &&
+            \ convert -resize "800x800>" +repage -gravity center
+                \ <(xclip -selection clipboard -t image/png -o) $image_path
+            \ && echo "![alt_text]($image)"')<CR>
+
+" Quick preview of images relative to current buffer's folder
+nnoremap <silent> <leader>lp :call system('xdg-open '.expand("%:h").'/'.expand("<cfile>"))<CR>
+
+" Generate html with pandoc, replace md links by md.html links
+nnoremap <silent> <leader>lg :call system(
+    \'pandoc
+        \ -H ~/.vim/default.css
+        \ <(sed -e "s/.md)/.md.html)/g" '.expand('%').')
+        \ -o '.expand('%').'.html &&
+    \ sed -i "s,<title>.*</title>,<title>$(grep -m1 ''^#\s\+.*'' '.expand('%').' \| sed -e ''s/#\s\+//g'')</title>,g" '.expand('%').'.html')
+    \ \| echom 'Rendered to '.expand('%').'.html'<CR>
+
+" Full screen firefox for distraction-free editing
+nnoremap <silent> <leader>lo :execute('Dispatch! firefox --kiosk --new-window '.expand('%').'.html')<CR>
