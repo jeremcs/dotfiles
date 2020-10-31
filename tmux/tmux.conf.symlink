@@ -50,6 +50,8 @@ source ~/.tmux/tmuxline.conf
 
 #set -g mode-mouse on
 
+bind-key h set-option -g status
+
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-copycat'
